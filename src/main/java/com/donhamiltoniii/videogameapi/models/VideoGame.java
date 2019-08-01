@@ -22,12 +22,24 @@ public class VideoGame {
 		return title;
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getStudio() {
 		return studio;
 	}
 
+	public void setStudio(String studio) {
+		this.studio = studio;
+	}
+
 	public Float getRating() {
 		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
 	}
 
 	public VideoGame() {
