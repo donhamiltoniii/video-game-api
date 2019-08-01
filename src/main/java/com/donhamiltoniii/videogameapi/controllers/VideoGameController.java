@@ -2,7 +2,6 @@ package com.donhamiltoniii.videogameapi.controllers;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -61,8 +60,8 @@ public class VideoGameController {
 		response.sendRedirect("/api/video-games");
 	}
 
-	@PatchMapping("/{id}")
-	public void updateVideoGame(@PathVariable() Long id, @RequestBody Map<String, Object> updates,
+	@PatchMapping("/{id}/update-title")
+	public void updateVideoGameTitle(@PathVariable() Long id, @RequestBody String titleUpdate,
 			HttpServletResponse response) throws Exception {
 		VideoGame videoGame;
 		Optional<VideoGame> videoGameOptional = videoGameRepo.findById(id);
@@ -73,7 +72,56 @@ public class VideoGameController {
 			throw new Exception("No such Video Game");
 		}
 
-		System.out.println(updates);
+		JSONObject json = (JSONObject) JSONParser.parseJSON(titleUpdate);
+		String title = json.getString("title");
+
+		videoGame.setTitle(title);
+
+		videoGameRepo.save(videoGame);
+
+		response.sendRedirect("/api/video-games/");
+	}
+
+	@PatchMapping("/{id}/update-studio")
+	public void updateVideoGameStudio(@PathVariable() Long id, @RequestBody String titleUpdate,
+			HttpServletResponse response) throws Exception {
+		VideoGame videoGame;
+		Optional<VideoGame> videoGameOptional = videoGameRepo.findById(id);
+
+		if (videoGameOptional.isPresent()) {
+			videoGame = videoGameOptional.get();
+		} else {
+			throw new Exception("No such Video Game");
+		}
+
+		JSONObject json = (JSONObject) JSONParser.parseJSON(titleUpdate);
+		String studio = json.getString("studio");
+
+		videoGame.setStudio(studio);
+
+		videoGameRepo.save(videoGame);
+
+		response.sendRedirect("/api/video-games/");
+	}
+
+	@PatchMapping("/{id}/update-rating")
+	public void updateVideoGameRating(@PathVariable() Long id, @RequestBody String titleUpdate,
+			HttpServletResponse response) throws Exception {
+		VideoGame videoGame;
+		Optional<VideoGame> videoGameOptional = videoGameRepo.findById(id);
+
+		if (videoGameOptional.isPresent()) {
+			videoGame = videoGameOptional.get();
+		} else {
+			throw new Exception("No such Video Game");
+		}
+
+		JSONObject json = (JSONObject) JSONParser.parseJSON(titleUpdate);
+		Float rating = (Float) (float) json.getDouble("rating");
+
+		videoGame.addRating(rating);
+
+		videoGameRepo.save(videoGame);
 
 		response.sendRedirect("/api/video-games/");
 	}

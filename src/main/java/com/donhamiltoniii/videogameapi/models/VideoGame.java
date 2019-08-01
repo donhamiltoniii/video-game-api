@@ -1,8 +1,12 @@
 package com.donhamiltoniii.videogameapi.models;
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class VideoGame {
@@ -13,6 +17,9 @@ public class VideoGame {
 	private String title;
 	private String studio;
 	private Float rating;
+
+	@JsonIgnore
+	private ArrayList<Float> ratings = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -34,12 +41,19 @@ public class VideoGame {
 		this.studio = studio;
 	}
 
-	public Float getRating() {
-		return rating;
+	public ArrayList<Float> getRatings() {
+		return ratings;
 	}
 
-	public void setRating(Float rating) {
-		this.rating = rating;
+	public Float getRating() {
+		Float total = 0.0f;
+		for (float rating : this.ratings) {
+			total += rating;
+		}
+
+		this.rating = total / ratings.size();
+
+		return this.rating;
 	}
 
 	public VideoGame() {
@@ -48,7 +62,13 @@ public class VideoGame {
 	public VideoGame(String title, String studio, Float rating) {
 		this.title = title;
 		this.studio = studio;
-		this.rating = rating;
+		this.ratings.add(rating);
+		this.rating = this.getRating();
+	}
+
+	public void addRating(Float newRating) {
+		this.ratings.add(newRating);
+		this.getRating();
 	}
 
 	@Override
