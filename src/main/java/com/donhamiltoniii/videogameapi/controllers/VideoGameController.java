@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONParser;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,7 +80,7 @@ public class VideoGameController {
 
 		videoGameRepo.save(videoGame);
 
-		response.sendRedirect("/api/video-games/");
+		response.sendRedirect("/api/video-games/" + id);
 	}
 
 	@PatchMapping("/{id}/update-studio")
@@ -101,7 +102,7 @@ public class VideoGameController {
 
 		videoGameRepo.save(videoGame);
 
-		response.sendRedirect("/api/video-games/");
+		response.sendRedirect("/api/video-games/" + id);
 	}
 
 	@PatchMapping("/{id}/update-rating")
@@ -123,6 +124,12 @@ public class VideoGameController {
 
 		videoGameRepo.save(videoGame);
 
-		response.sendRedirect("/api/video-games/");
+		response.sendRedirect("/api/video-games/" + id);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteVideoGame(@PathVariable() Long id, HttpServletResponse response) throws IOException {
+		videoGameRepo.deleteById(id);
+		response.sendRedirect("/api/video-games");
 	}
 }
