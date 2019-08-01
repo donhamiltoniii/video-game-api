@@ -11,6 +11,8 @@ public class VideoGame {
 	@GeneratedValue
 	private Long id;
 	private String title;
+	private String studio;
+	private Float rating;
 
 	public Long getId() {
 		return id;
@@ -20,12 +22,21 @@ public class VideoGame {
 		return title;
 	}
 
+	public String getStudio() {
+		return studio;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
 	public VideoGame() {
 	}
 
-	public VideoGame(String title) {
-		super();
+	public VideoGame(String title, String studio, Float rating) {
 		this.title = title;
+		this.studio = studio;
+		this.rating = rating;
 	}
 
 	@Override
